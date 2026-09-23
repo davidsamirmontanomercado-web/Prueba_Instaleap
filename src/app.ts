@@ -12,6 +12,10 @@ import { errorMiddleware } from "./api/middlewares/error.middleware";
 
 // Importa las rutas relacionadas con la autenticación de usuarios.
 import authRoutes from "./api/routes/auth.routes";
+
+// Importa las rutas relacionadas con la gestión de tareas.
+import tasksRoutes from "./api/routes/tasks.routes";
+
 // Crea una instancia de la aplicación de Express.
 const app = express();
 
@@ -23,6 +27,8 @@ app.use("/api/auth", authRoutes);
 
 // Configura el middleware encargado de manejar los errores que ocurran durante la ejecución de la aplicación.
 app.use(errorMiddleware);
+
+app.use("/api/tasks", tasksRoutes);
 
 // Define la ruta principal de la API.
 app.get("/", (req, res) => {
