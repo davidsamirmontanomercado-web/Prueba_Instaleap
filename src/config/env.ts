@@ -32,6 +32,9 @@ export const env = {
     // Si no está definida, utiliza una cadena vacía.
     password: process.env.DB_PASSWORD || "",
 
+    
   },
-
+  jwt: {
+    secret: process.env.JWT_SECRET || "",
+  },
 };
