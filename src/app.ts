@@ -8,7 +8,7 @@ import { swaggerSpec } from "./config/swagger";
 import swaggerUi from "swagger-ui-express";
 
 const app = express();
-
+// app-use
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
