@@ -5,7 +5,17 @@ import {
   loginUser,
 } from "../services/auth.service";
 
-// Controlador encargado del registro de usuarios.
+/**
+ * Registra un nuevo usuario mediante una petición HTTP.
+ *
+ * Obtiene los datos enviados en el cuerpo de la petición,
+ * los envía al servicio de autenticación y devuelve
+ * la información del usuario creado.
+ *
+ * @param req Solicitud HTTP con los datos del usuario.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const register = async (
   req: Request,
   res: Response,

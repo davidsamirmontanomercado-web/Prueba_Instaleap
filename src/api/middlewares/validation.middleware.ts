@@ -1,28 +1,29 @@
-// Importa los tipos de Express necesarios para trabajar
-// con la petición, respuesta y el siguiente middleware.
 import { Request, Response, NextFunction } from "express";
-
 // Importa AJV para validar datos utilizando JSON Schema.
 // JSONSchemaType permite tipar el esquema según TypeScript.
 // ValidateFunction representa la función que AJV genera
-import Ajv, {JSONSchemaType,ValidateFunction} from "ajv";
-
+import Ajv, { JSONSchemaType, ValidateFunction } from "ajv";
 // Importa la función que agrega validaciones adicionales
-
 import addFormats from "ajv-formats";
-
 
 // Crea una instancia de AJV que será utilizada
 // para compilar y ejecutar los esquemas de validación.
-const ajv = new Ajv({allErrors: true,});
-
+const ajv = new Ajv({ allErrors: true, });
 
 // Agrega formatos adicionales a AJV.
 addFormats(ajv);
 
+/**
+ * Crea un middleware para validar el cuerpo de una petición
+ * utilizando un esquema JSON de AJV.
+ * Declara una función genérica llamada validateBody.
+ * <T> permite que la función sea reutilizable
+ * 
+ * @param schema Esquema utilizado para validar los datos.
+ * @returns Middleware de Express encargado de validar req.body.
+ */
 
-// Declara una función genérica llamada validateBody.
-// <T> permite que la función sea reutilizable
+
 export const validateBody = <T>(
 
   // Recibe un JSON Schema que define
@@ -38,15 +39,8 @@ export const validateBody = <T>(
   // Esto permite utilizar validateBody() directamente
   // dentro de las rutas.
   return (
-
-    // Representa la petición HTTP.
     req: Request,
-
-    // Representa la respuesta HTTP.
     res: Response,
-
-    // Permite continuar con el siguiente middleware
-    // o controlador.
     next: NextFunction
 
   ): void => {

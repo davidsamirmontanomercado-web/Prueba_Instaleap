@@ -16,6 +16,12 @@ import authRoutes from "./api/routes/auth.routes";
 // Importa las rutas relacionadas con la gestión de tareas.
 import tasksRoutes from "./api/routes/tasks.routes";
 
+// Importa la especificación de Swagger.
+import { swaggerSpec } from "./config/swagger";
+
+// Importa Swagger UI para mostrar la documentación en el navegador.
+import swaggerUi from "swagger-ui-express";
+
 // Crea una instancia de la aplicación de Express.
 const app = express();
 
@@ -25,10 +31,15 @@ app.use(express.json());
 // Configura las rutas relacionadas con la autenticación de usuarios.
 app.use("/api/auth", authRoutes);
 
-// Configura el middleware encargado de manejar los errores que ocurran durante la ejecución de la aplicación.
-app.use(errorMiddleware);
-
+// Configura las rutas relacionadas con la gestión de tareas.
 app.use("/api/tasks", tasksRoutes);
+
+// Configura la documentación interactiva de Swagger.
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 
 // Define la ruta principal de la API.
 app.get("/", (req, res) => {
@@ -38,15 +49,16 @@ app.get("/", (req, res) => {
   });
 });
 
+// Configura el middleware de manejo de errores.
+app.use(errorMiddleware);
+
 // Define una función asíncrona encargada de iniciar el servidor.
 const startServer = async (): Promise<void> => {
   try {
     // Comprueba que exista conexión con la base de datos antes de iniciar el servidor.
     await testDatabaseConnection();
-
     // Inicia el servidor en el puerto configurado en las variables de entorno.
     app.listen(env.port, () => {
-      // Muestra en consola la dirección donde se está ejecutando el servidor.
       console.log(
         `Servidor ejecutándose en http://localhost:${env.port}`
       );

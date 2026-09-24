@@ -1,30 +1,112 @@
-// Importa Router desde Express para crear un conjunto de rutas relacionadas.
 import { Router } from "express";
 
-// Importa los controladores de autenticación.
 import {register,login,} from "../../controllers/auth.controller";
 
-// Importa el middleware de autenticación y la interfaz
-// que representa una petición con usuario autenticado.
 import {authMiddleware,AuthenticatedRequest,} from "../middlewares/auth.middleware";
 
-// Importa el middleware que valida los datos utilizando AJV.
 import {validateBody,} from "../middlewares/validation.middleware";
 
-// Importa los schemas que contienen las reglas
-// de validación para registro y login.
 import {registerSchema,loginSchema,} from "../../schemas/auth.schema";
 
-// Crea una instancia del router de Express.
 const router = Router();
 
-// Valida los datos del registro antes de ejecutar el controlador.
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     description: Crea un nuevo usuario en el sistema.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nombre
+ *               - email
+ *               - password
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 100
+ *                 example: Juan Pérez
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: juan@example.com
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 6
+ *                 example: 123456
+ *     responses:
+ *       201:
+ *         description: Usuario registrado correctamente
+ *       400:
+ *         description: Datos de entrada inválidos
+ *       409:
+ *         description: El correo electrónico ya está registrado
+ */
 router.post("/register",validateBody(registerSchema),register);
 
-// Valida los datos del login antes de ejecutar el controlador.
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     description: Autentica un usuario y genera un token JWT.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: juan@example.com
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       400:
+ *         description: Datos de entrada inválidos
+ *       401:
+ *         description: Correo electrónico o contraseña incorrectos
+ */
 router.post("/login",validateBody(loginSchema),login);
 
-// Ruta protegida para consultar el usuario autenticado.
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Obtener usuario autenticado
+ *     description: Devuelve la información del usuario asociado al token JWT.
+ *     tags:
+ *       - Auth
+ *
+ *     security:
+ *       - bearerAuth: []
+ *
+ *     responses:
+ *       200:
+ *         description: Usuario autenticado correctamente
+ *       401:
+ *         description: Token requerido, inválido o expirado
+ */
 router.get(
   "/me",
   authMiddleware,
@@ -36,5 +118,4 @@ router.get(
   }
 );
 
-// Exporta el router para utilizarlo en app.ts.
 export default router;

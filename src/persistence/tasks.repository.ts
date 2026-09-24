@@ -11,7 +11,16 @@ export interface Task {
   estado: TaskStatus;
   created_at: Date;
 }
-
+/**
+ * Crea una tarea en la base de datos.
+ *
+ * @param userId Identificador del usuario propietario.
+ * @param titulo Título de la tarea.
+ * @param descripcion Descripción de la tarea.
+ * @param fechaVencimiento Fecha límite de la tarea.
+ * @param estado Estado inicial de la tarea.
+ * @returns La tarea creada.
+ */
 export const createTask = async (
   userId: number,
   titulo: string,
@@ -44,6 +53,12 @@ export const createTask = async (
   return result.rows[0];
 };
 
+/**
+ * Obtiene todas las tareas pertenecientes a un usuario.
+ *
+ * @param userId Identificador del usuario propietario.
+ * @returns Lista de tareas del usuario.
+ */
 export const findTasksByUserId = async (
   userId: number
 ): Promise<Task[]> => {
@@ -67,6 +82,12 @@ export const findTasksByUserId = async (
   return result.rows;
 };
 
+/**
+ * Obtiene todas las tareas pertenecientes a un usuario.
+ *
+ * @param userId Identificador del usuario propietario.
+ * @returns Lista de tareas del usuario.
+ */
 export const findTaskById = async (
   taskId: number,
   userId: number
@@ -91,6 +112,17 @@ export const findTaskById = async (
   return result.rows[0] ?? null;
 };
 
+/**
+ * Actualiza una tarea perteneciente a un usuario.
+ *
+ * @param taskId Identificador de la tarea.
+ * @param userId Identificador del usuario propietario.
+ * @param titulo Nuevo título de la tarea.
+ * @param descripcion Nueva descripción de la tarea.
+ * @param fechaVencimiento Nueva fecha de vencimiento.
+ * @param estado Nuevo estado de la tarea.
+ * @returns La tarea actualizada o null si no existe.
+ */
 export const updateTask = async (
   taskId: number,
   userId: number,
@@ -131,6 +163,13 @@ export const updateTask = async (
   return result.rows[0] ?? null;
 };
 
+/**
+ * Elimina una tarea perteneciente a un usuario.
+ *
+ * @param taskId Identificador de la tarea.
+ * @param userId Identificador del usuario propietario.
+ * @returns La tarea eliminada o null si no existe.
+ */
 export const deleteTask = async (
   taskId: number,
   userId: number

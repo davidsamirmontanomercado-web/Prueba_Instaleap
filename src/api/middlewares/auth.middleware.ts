@@ -1,38 +1,35 @@
 // Importa los tipos de Express necesarios para trabajar
 import { Request, Response, NextFunction } from "express";
-
-// Importa jsonwebtoken para verificar los tokens JWT.
 import jwt from "jsonwebtoken";
-// Importa el error personalizado 
 import { AuthenticationError } from "../../errors/AuthenticationError";
-
 import { env } from "../../config/env";
 
 // Extiende la interfaz Request de Express para agregar
 // información del usuario autenticado a la petición.
 export interface AuthenticatedRequest extends Request {
-
   // user será agregado después de verificar correctamente el token.
   user?: {
-    // Identificador del usuario autenticado.
     userId: number;
-    // Correo electrónico del usuario autenticado.
     email: string;
   };
 }
 
-// Middleware encargado de verificar la autenticación del usuario.
+/**
+ * Middleware que verifica el token JWT enviado
+ * en el encabezado Authorization.
+ *
+ * Si el token es válido, agrega la información
+ * del usuario autenticado a req.user.
+ * Se utiliza AuthenticatedRequest para poder agregar req.user.
+ * @param req Solicitud HTTP.
+ * @param res Respuesta HTTP.
+ * @param next Middleware siguiente.
+ */
 export const authMiddleware = (
-  // Se utiliza AuthenticatedRequest para poder agregar req.user.
   req: AuthenticatedRequest,
-  // Representa la respuesta HTTP.
   res: Response,
-  // Función que permite continuar con el siguiente middleware
-  // o con el controlador correspondiente.
   next: NextFunction
 
-// Este middleware no devuelve directamente una respuesta,
-// por eso se especifica void.
 ): void => {
 
   try {
@@ -42,10 +39,8 @@ export const authMiddleware = (
         "Token de autenticación requerido"
       );
     }
-
     // Separa el tipo de autorización y el token.
     const [type, token] = authorization.split(" ");
-
 
     // Si alguna de las condiciones falla,
     // el formato de autorización se considera inválido.

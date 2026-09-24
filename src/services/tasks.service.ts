@@ -34,6 +34,13 @@ const validStatuses: TaskStatus[] = [
   "completada",
 ];
 
+/**
+ * Valida las reglas básicas de una tarea antes de procesarla.
+ *
+ * @param titulo Título de la tarea.
+ * @param estado Estado de la tarea.
+ * @throws AppError Si el título está vacío o el estado no es válido.
+ */
 const validateTaskData = (
   titulo: string,
   estado: TaskStatus
@@ -53,6 +60,12 @@ const validateTaskData = (
   }
 };
 
+/**
+ * Crea una nueva tarea asociada a un usuario.
+ *
+ * @param data Datos necesarios para crear la tarea.
+ * @returns La tarea creada.
+ */
 export const createNewTask = async (
   data: CreateTaskData
 ): Promise<Task> => {
@@ -75,12 +88,26 @@ export const createNewTask = async (
   );
 };
 
+/**
+ * Obtiene todas las tareas pertenecientes a un usuario.
+ *
+ * @param userId Identificador del usuario autenticado.
+ * @returns Lista de tareas del usuario.
+ */
 export const getUserTasks = async (
   userId: number
 ): Promise<Task[]> => {
   return findTasksByUserId(userId);
 };
 
+/**
+ * Obtiene una tarea específica perteneciente a un usuario.
+ *
+ * @param taskId Identificador de la tarea.
+ * @param userId Identificador del usuario autenticado.
+ * @returns La tarea encontrada.
+ * @throws NotFoundError Si la tarea no existe o no pertenece al usuario.
+ */
 export const getTaskById = async (
   taskId: number,
   userId: number
@@ -96,6 +123,13 @@ export const getTaskById = async (
   return task;
 };
 
+/**
+ * Actualiza una tarea perteneciente a un usuario.
+ *
+ * @param data Datos necesarios para actualizar la tarea.
+ * @returns La tarea actualizada.
+ * @throws NotFoundError Si la tarea no existe o no pertenece al usuario.
+ */
 export const updateUserTask = async (
   data: UpdateTaskData
 ): Promise<Task> => {
@@ -128,6 +162,14 @@ export const updateUserTask = async (
   return task;
 };
 
+/**
+ * Elimina una tarea perteneciente a un usuario.
+ *
+ * @param taskId Identificador de la tarea.
+ * @param userId Identificador del usuario autenticado.
+ * @returns La tarea eliminada.
+ * @throws NotFoundError Si la tarea no existe o no pertenece al usuario.
+ */
 export const deleteUserTask = async (
   taskId: number,
   userId: number

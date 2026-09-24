@@ -1,4 +1,7 @@
-// Define una clase personalizada para manejar errores de la aplicación.
+/**
+ * Error base de la aplicación que permite asociar
+ * un mensaje con un código de estado HTTP.
+ */
 export class AppError extends Error {
   // Propiedad que almacena el código de estado HTTP asociado al error.
   public readonly statusCode: number;

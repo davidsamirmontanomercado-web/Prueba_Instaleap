@@ -9,9 +9,15 @@ import {
   deleteUserTask,
   getTaskById,
   getUserTasks,
-  updateUserTask,
-} from "../services/tasks.service";
+  updateUserTask, } from "../services/tasks.service";
 
+  /**
+ * Crea una nueva tarea para el usuario autenticado.
+ *
+ * @param req Solicitud HTTP con los datos de la tarea.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const createTask = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -44,6 +50,13 @@ export const createTask = async (
   }
 };
 
+/**
+ * Obtiene todas las tareas del usuario autenticado.
+ *
+ * @param req Solicitud HTTP con la información del usuario autenticado.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const getTasks = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -62,6 +75,13 @@ export const getTasks = async (
   }
 };
 
+/**
+ * Obtiene una tarea por su identificador.
+ *
+ * @param req Solicitud HTTP con el ID de la tarea.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const getTask = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -89,6 +109,13 @@ export const getTask = async (
   }
 };
 
+/**
+ * Actualiza una tarea del usuario autenticado.
+ *
+ * @param req Solicitud HTTP con el ID y los datos de la tarea.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const updateTask = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -131,6 +158,13 @@ export const updateTask = async (
   }
 };
 
+/**
+ * Elimina una tarea del usuario autenticado.
+ *
+ * @param req Solicitud HTTP con el ID de la tarea.
+ * @param res Respuesta HTTP.
+ * @param next Middleware utilizado para propagar errores.
+ */
 export const deleteTask = async (
   req: AuthenticatedRequest,
   res: Response,

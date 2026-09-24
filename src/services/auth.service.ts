@@ -1,12 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-import {
-  createUser,
-  findUserByEmail,
-  User,
-} from "../persistence/users.repository";
-
+import {createUser,findUserByEmail,User,} from "../persistence/users.repository";
 import { AppError } from "../errors/AppError";
 import { AuthenticationError } from "../errors/AuthenticationError";
 import { env } from "../config/env";
@@ -22,6 +16,16 @@ interface LoginUserData {
   password: string;
 }
 
+/**
+ * Registra un nuevo usuario en el sistema.
+ *
+ * Verifica que el correo no esté registrado y almacena
+ * la contraseña utilizando un hash generado con bcrypt.
+ *
+ * @param data Datos necesarios para registrar el usuario.
+ * @returns Información del usuario creado sin incluir la contraseña.
+ * @throws AppError Si el correo ya está registrado.
+ */
 export const registerUser = async (
   data: RegisterUserData
 ): Promise<Omit<User, "password_hash">> => {
@@ -53,6 +57,16 @@ export const registerUser = async (
   return userWithoutPassword;
 };
 
+/**
+ * Autentica un usuario mediante correo y contraseña.
+ *
+ * Verifica las credenciales utilizando bcrypt y genera
+ * un token JWT válido durante una hora.
+ *
+ * @param data Credenciales del usuario.
+ * @returns Token JWT e información del usuario autenticado.
+ * @throws AuthenticationError Si las credenciales son incorrectas.
+ */
 export const loginUser = async (
   data: LoginUserData
 ): Promise<{

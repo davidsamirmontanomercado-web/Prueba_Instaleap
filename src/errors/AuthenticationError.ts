@@ -1,9 +1,11 @@
 // Importa la clase AppError, que sirve como clase base para crear errores personalizados.
 import { AppError } from "./AppError";
 
-// Define un error personalizado para situaciones relacionadas con autenticación.
+/**
+ * Representa un error relacionado con autenticación
+ * o autorización.
+ */
 export class AuthenticationError extends AppError {
-
   // Constructor de la clase.
   // Si no se proporciona un mensaje, utiliza "No autorizado" como mensaje predeterminado.
   constructor(message = "No autorizado") {

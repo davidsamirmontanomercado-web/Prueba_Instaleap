@@ -1,7 +1,10 @@
 // Importa la clase AppError, que sirve como clase base para crear errores personalizados.
 import { AppError } from "./AppError";
 
-// Define un error personalizado para cuando no se encuentra un recurso solicitado.
+/**
+ * Representa un error utilizado cuando un recurso
+ * solicitado no existe.
+ */
 export class NotFoundError extends AppError {
 
   // Constructor de la clase.

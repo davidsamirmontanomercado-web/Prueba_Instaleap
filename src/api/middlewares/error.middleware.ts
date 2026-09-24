@@ -1,21 +1,24 @@
-// Importa los tipos Request, Response y NextFunction desde Express.
 import { Request, Response, NextFunction } from "express";
-
-// Importa la clase AppError para identificar los errores personalizados de la aplicación.
 import { AppError } from "../../errors/AppError";
 
-// Define el middleware encargado de manejar los errores de la aplicación.
+
+/**
+ * Middleware centralizado para manejar los errores
+ * generados durante el procesamiento de las peticiones.
+ *
+ * Los errores de tipo AppError utilizan el código HTTP
+ * definido en la propia excepción. Los errores no controlados
+ * devuelven una respuesta 500.
+ *
+ * @param error Error generado durante la petición.
+ * @param req Solicitud HTTP.
+ * @param res Respuesta HTTP.
+ * @param next Middleware siguiente.
+ */
 export const errorMiddleware = (
-  // Contiene la información del error que ocurrió.
   error: Error,
-
-  // Representa la petición HTTP realizada por el cliente.
   req: Request,
-
-  // Permite enviar una respuesta HTTP al cliente.
   res: Response,
-
-  // Permite pasar el control al siguiente middleware de Express.
   next: NextFunction
 ): void => {
 
