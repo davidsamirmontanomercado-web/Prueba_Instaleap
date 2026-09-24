@@ -1,25 +1,30 @@
-// Importa Router desde Express para crear y organizar las rutas de la API.
+// Importa Router desde Express para crear un conjunto de rutas relacionadas.
 import { Router } from "express";
 
-// Importa el controlador encargado de realizar el registro de usuarios.
-import { register, login } from "../../controllers/auth.controller";
+// Importa los controladores de autenticación.
+import {register,login,} from "../../controllers/auth.controller";
 
-// Importa el middleware de autenticación y la interfaz AuthenticatedRequest desde el archivo auth.middleware.ts.
-import {
-  authMiddleware,
-  AuthenticatedRequest,
-} from "../middlewares/auth.middleware";
+// Importa el middleware de autenticación y la interfaz
+// que representa una petición con usuario autenticado.
+import {authMiddleware,AuthenticatedRequest,} from "../middlewares/auth.middleware";
+
+// Importa el middleware que valida los datos utilizando AJV.
+import {validateBody,} from "../middlewares/validation.middleware";
+
+// Importa los schemas que contienen las reglas
+// de validación para registro y login.
+import {registerSchema,loginSchema,} from "../../schemas/auth.schema";
 
 // Crea una instancia del router de Express.
 const router = Router();
 
-// Define una ruta POST para registrar un nuevo usuario.
-// Cuando se realiza una petición POST a "/register", se ejecuta el controlador register.
-router.post("/register", register);
+// Valida los datos del registro antes de ejecutar el controlador.
+router.post("/register",validateBody(registerSchema),register);
 
-router.post("/login", login)
+// Valida los datos del login antes de ejecutar el controlador.
+router.post("/login",validateBody(loginSchema),login);
 
-
+// Ruta protegida para consultar el usuario autenticado.
 router.get(
   "/me",
   authMiddleware,
@@ -31,5 +36,5 @@ router.get(
   }
 );
 
-// Exporta el router para poder utilizarlo en otras partes de la aplicación.
+// Exporta el router para utilizarlo en app.ts.
 export default router;
