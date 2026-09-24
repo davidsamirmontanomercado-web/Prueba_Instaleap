@@ -49,11 +49,9 @@ export const authMiddleware = (
         "Formato de autorización inválido"
       );
     }
-
     // env.jwt.secret contiene el secreto utilizado
     // para validar el token.
     const decoded = jwt.verify(token, env.jwt.secret);
-
     // Verifica que la información contenida dentro del token
     // tenga la estructura esperada.
     if (

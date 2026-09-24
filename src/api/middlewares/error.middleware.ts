@@ -30,7 +30,6 @@ export const errorMiddleware = (
       // Envía el mensaje asociado al error al cliente.
       error: error.message,
     });
-
     // Detiene la ejecución porque la respuesta ya fue enviada.
     return;
   }
